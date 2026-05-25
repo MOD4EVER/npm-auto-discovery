@@ -1,0 +1,22 @@
+services:
+  npm-auto-discovery:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    group_add:
+      - "${DOCKER_GID:-996}"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - proxy-network
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:${HEALTH_PORT:-8080}/health || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+networks:
+  proxy-network:
+    external: true
+    name: ${PROXY_NETWORK_NAME:-proxy-network}
