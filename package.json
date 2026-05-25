@@ -1,0 +1,70 @@
+{
+  "name": "npm-auto-discovery",
+  "version": "1.0.0",
+  "description": "Auto-discover Docker containers and create Nginx Proxy Manager proxy hosts",
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "build": "tsup",
+    "build:sea": "tsup --config tsup.sea.config.ts && node --experimental-sea-config sea-config.json && cp $(which node) npm-auto-discovery && npx postject npm-auto-discovery NODE_SEA_BLOB sea-prep.blob --sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2 && chmod +x npm-auto-discovery && rm sea-prep.blob",
+    "dev": "node --env-file=.env --import=tsx/esm src/main.ts",
+    "check": "biome check . && tsc --noEmit",
+    "test": "vitest run --coverage",
+    "typecheck": "tsc --noEmit",
+    "pm2:start": "(test -f ./npm-auto-discovery || npm run build:sea) && set -a && . ./.env && set +a && pm2 start pm2.sea.config.cjs",
+    "pm2:start:node": "(test -f dist/main.cjs || npm run build) && pm2 start pm2.node.config.cjs",
+    "pm2:stop": "pm2 stop npm-auto-discovery",
+    "pm2:restart": "pm2 restart npm-auto-discovery",
+    "pm2:status": "pm2 info npm-auto-discovery",
+    "pm2:logs": "pm2 logs npm-auto-discovery --raw | node node_modules/.bin/pino-pretty",
+    "pm2:save": "pm2 save",
+    "prepublishOnly": "npm run check && npm test && npm run build"
+  },
+  "keywords": [
+    "nginx-proxy-manager",
+    "docker",
+    "auto-discovery",
+    "reverse-proxy",
+    "docker-events",
+    "proxy",
+    "container",
+    "self-healing"
+  ],
+  "main": "dist/main.cjs",
+  "files": [
+    "dist/"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MOD4EVER/npm-auto-discovery.git"
+  },
+  "homepage": "https://github.com/MOD4EVER/npm-auto-discovery#readme",
+  "bugs": {
+    "url": "https://github.com/MOD4EVER/npm-auto-discovery/issues"
+  },
+  "config": {
+    "tag-version-prefix": "v"
+  },
+  "author": "MOD4EVER <git@mod4ever.de>",
+  "license": "AGPL-3.0-only",
+  "dependencies": {
+    "axios": "^1.16.0",
+    "dockerode": "^5.0.0",
+    "pino": "^9.14.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.14",
+    "@types/dockerode": "^4.0.1",
+    "@types/node": "^25.6.0",
+    "@vitest/coverage-v8": "^4.1.5",
+    "pino-pretty": "^13.1.3",
+    "postject": "^1.0.0-alpha.6",
+    "tsup": "^8.5.1",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.5"
+  }
+}

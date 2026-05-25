@@ -1,0 +1,12 @@
+node_modules/
+dist/
+coverage/
+.env
+*.blob
+npm-auto-discovery
+TODO
+_bmad/
+_bmad-output/
+.agents/
+.claude/
+docs/
