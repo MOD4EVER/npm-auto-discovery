@@ -70,6 +70,7 @@ describe('DockerodeClient.inspectContainer()', () => {
       Id: 'cid1',
       Name: '/web',
       Config: { Env: ['PORT=80', 'HOST=example.com'] },
+      HostConfig: { NetworkMode: 'bridge', Privileged: false },
       NetworkSettings: {
         Networks: { bridge: { IPAddress: '172.17.0.2', Gateway: '172.17.0.1' } },
       },
@@ -87,6 +88,7 @@ describe('DockerodeClient.inspectContainer()', () => {
       Id: 'cid1',
       Name: '/web',
       Config: { Env: ['PORT=80', 'HOST=example.com'] },
+      HostConfig: { NetworkMode: 'bridge' },
       NetworkSettings: { Networks: { bridge: { IPAddress: '172.17.0.2' } } },
     });
   });

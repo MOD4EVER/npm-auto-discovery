@@ -22,7 +22,19 @@ export async function resolveForwardHost(
   containerInfo: ContainerInspect,
   mode: 'auto' | 'dns' | 'ip',
   proxyNetworkName: string,
+  hostNetworkForwardHost?: string,
 ): Promise<string> {
+  // network_mode: host — the container has no IP of its own, it listens on the Docker host
+  if (containerInfo.HostConfig?.NetworkMode === 'host') {
+    if (!hostNetworkForwardHost) {
+      throw new DockerConnectionError(
+        `Container "${containerInfo.Name}" uses network_mode: host — set HOST_NETWORK_FORWARD_HOST to the Docker host address NPM should forward to`,
+        ErrorCode.CONTAINER_NO_IP,
+      );
+    }
+    return hostNetworkForwardHost;
+  }
+
   if (mode === 'ip') {
     return getContainerIp(containerInfo, proxyNetworkName);
   }

@@ -12,6 +12,18 @@ function parseEnvMap(env: string[]): Record<string, string> {
   return map;
 }
 
+// Tolerates URL-ish values like "https://app.example.com/" — NPM only accepts bare
+// hostnames and rejects anything else (e.g. cert creation fails with 400).
+function normalizeDomain(raw: string): string {
+  return raw
+    .trim()
+    .replace(/^[a-z][a-z0-9+.-]*:\/\//i, '')
+    .replace(/[/?#].*$/, '')
+    .replace(/:\d+$/, '')
+    .replace(/\.$/, '')
+    .toLowerCase();
+}
+
 export function parseContainerConfig(env: string[] | null): ContainerConfig | null {
   if (!env || env.length === 0) return null;
 
@@ -22,7 +34,7 @@ export function parseContainerConfig(env: string[] | null): ContainerConfig | nu
 
   const domains = rawVirtualHost
     .split(',')
-    .map((d) => d.trim())
+    .map(normalizeDomain)
     .filter((d) => d.length > 0);
 
   if (domains.length === 0) return null;

@@ -50,6 +50,7 @@ export class DockerodeClient implements DockerClient {
       Id: raw.Id,
       Name: raw.Name,
       Config: { Env: raw.Config.Env ?? null },
+      HostConfig: { NetworkMode: raw.HostConfig?.NetworkMode },
       NetworkSettings: {
         Networks: Object.fromEntries(
           Object.entries(raw.NetworkSettings.Networks).map(([k, v]) => [

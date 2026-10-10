@@ -147,3 +147,25 @@ describe('parseContainerConfig()', () => {
     });
   });
 });
+
+describe('parseContainerConfig() — domain normalization', () => {
+  it('strips a URL scheme from VIRTUAL_HOST', () => {
+    const result = parseContainerConfig(['VIRTUAL_HOST=https://db.example.com']);
+    expect(result?.domains).toEqual(['db.example.com']);
+  });
+
+  it('strips path, port and trailing dot, and lowercases', () => {
+    const result = parseContainerConfig(['VIRTUAL_HOST=http://App.Example.com.:8443/admin?x=1']);
+    expect(result?.domains).toEqual(['app.example.com']);
+  });
+
+  it('normalizes each comma-separated domain independently', () => {
+    const result = parseContainerConfig(['VIRTUAL_HOST=https://a.example.com/, b.example.com']);
+    expect(result?.domains).toEqual(['a.example.com', 'b.example.com']);
+  });
+
+  it('drops entries that are empty after normalization', () => {
+    const result = parseContainerConfig(['VIRTUAL_HOST=https://,app.example.com']);
+    expect(result?.domains).toEqual(['app.example.com']);
+  });
+});

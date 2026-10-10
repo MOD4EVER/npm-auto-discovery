@@ -55,6 +55,7 @@ export class ContainerProcessor {
         container,
         containerConfig.forwardHostMode,
         this.config.PROXY_NETWORK_NAME,
+        this.config.HOST_NETWORK_FORWARD_HOST,
       );
 
       if (!existing) {

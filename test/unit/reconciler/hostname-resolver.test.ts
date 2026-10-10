@@ -130,3 +130,38 @@ describe('resolveForwardHost — dns mode', () => {
     );
   });
 });
+
+describe('resolveForwardHost — network_mode: host', () => {
+  function makeHostModeContainer(): ContainerInspect {
+    return {
+      Id: 'abc123',
+      Name: '/game-node',
+      Config: { Env: [] },
+      HostConfig: { NetworkMode: 'host' },
+      NetworkSettings: { Networks: { host: { IPAddress: '' } } },
+    };
+  }
+
+  it('returns the configured host address regardless of mode', async () => {
+    for (const mode of ['auto', 'dns', 'ip'] as const) {
+      const result = await resolveForwardHost(
+        makeHostModeContainer(),
+        mode,
+        'proxy-network',
+        '172.18.0.1',
+      );
+      expect(result).toBe('172.18.0.1');
+    }
+  });
+
+  it('throws CONTAINER_NO_IP mentioning HOST_NETWORK_FORWARD_HOST when it is not set', async () => {
+    await expect(
+      resolveForwardHost(makeHostModeContainer(), 'auto', 'proxy-network'),
+    ).rejects.toSatisfy(
+      (e: unknown) =>
+        e instanceof DockerConnectionError &&
+        e.code === ErrorCode.CONTAINER_NO_IP &&
+        e.message.includes('HOST_NETWORK_FORWARD_HOST'),
+    );
+  });
+});

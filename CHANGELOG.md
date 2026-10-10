@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `HOST_NETWORK_FORWARD_HOST` config: containers with `network_mode: host` are forwarded to this address instead of failing with `CONTAINER_NO_IP`
+
+### Fixed
+
+- `VIRTUAL_HOST` values are normalized to bare hostnames (scheme, path, port and trailing dot stripped, lowercased) — `https://db.example.com` previously failed certificate creation with HTTP 400
+
 ## [1.0.0] - 2026-05-25
 
 ### Added

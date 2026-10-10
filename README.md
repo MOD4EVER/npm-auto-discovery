@@ -71,7 +71,7 @@ services:
 
 | Variable | Required | Description |
 |---|---|---|
-| `VIRTUAL_HOST` | **YES** | Comma-separated domain(s) to proxy (e.g., `app.example.com,www.app.example.com`) |
+| `VIRTUAL_HOST` | **YES** | Comma-separated domain(s) to proxy (e.g., `app.example.com,www.app.example.com`). A scheme, path or port (`https://app.example.com/`) is stripped |
 | `VIRTUAL_PORT` | no | Container port to forward traffic to (default: `80`) |
 | `VIRTUAL_SSL_CERT_ID` | no | ID of an existing NPM SSL certificate to attach |
 | `FORWARD_HOST_MODE` | no | Per-container override of the global `FORWARD_HOST_MODE` setting (`auto`\|`dns`\|`ip`) |
@@ -89,6 +89,7 @@ services:
 | `PROXY_NETWORK_NAME` | string | no | `proxy-network` | Docker network name shared between this service, NPM, and managed containers |
 | `NPM_MAX_RETRIES` | number | no | `3` | Maximum NPM API retry attempts with exponential backoff |
 | `HEALTH_PORT` | number (port) | no | `8080` | Port for the `/health` endpoint |
+| `HOST_NETWORK_FORWARD_HOST` | string | no | — | Address NPM forwards to for containers with `network_mode: host` (e.g. the proxy network gateway or the server's public IP); such containers fail with `CONTAINER_NO_IP` while unset |
 | `LOG_LEVEL` | string | no | `info` | Pino log level (`trace`, `debug`, `info`, `warn`, `error`, `fatal`) |
 
 ## CLI Options

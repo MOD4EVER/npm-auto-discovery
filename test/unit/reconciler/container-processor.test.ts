@@ -139,7 +139,28 @@ describe('ContainerProcessor.process() — create path (AC: 1, 5)', () => {
     const npmClient = makeNpmClient([]);
     const processor = new ContainerProcessor(mockConfig, npmClient, makeLogger());
     await processor.process(makeContainer(), 'event');
-    expect(resolveForwardHost).toHaveBeenCalledWith(expect.any(Object), 'auto', 'proxy-network');
+    expect(resolveForwardHost).toHaveBeenCalledWith(
+      expect.any(Object),
+      'auto',
+      'proxy-network',
+      undefined,
+    );
+  });
+
+  it('passes HOST_NETWORK_FORWARD_HOST from config to resolveForwardHost', async () => {
+    const npmClient = makeNpmClient([]);
+    const processor = new ContainerProcessor(
+      { ...mockConfig, HOST_NETWORK_FORWARD_HOST: '172.18.0.1' },
+      npmClient,
+      makeLogger(),
+    );
+    await processor.process(makeContainer(), 'event');
+    expect(resolveForwardHost).toHaveBeenCalledWith(
+      expect.any(Object),
+      'auto',
+      'proxy-network',
+      '172.18.0.1',
+    );
   });
 });
 

@@ -12,6 +12,7 @@ const configSchema = z.object({
   NPM_MAX_RETRIES: z.coerce.number().int().min(0).default(3),
   HEALTH_PORT: z.coerce.number().int().min(1).max(65535).default(8080),
   NPM_CREDENTIALS_FILE: z.string().optional(),
+  HOST_NETWORK_FORWARD_HOST: z.string().optional(),
 });
 
 export type Config = z.infer<typeof configSchema>;
@@ -75,5 +76,6 @@ export function safeConfig(config: Config): Record<string, unknown> {
     NPM_MAX_RETRIES: config.NPM_MAX_RETRIES,
     HEALTH_PORT: config.HEALTH_PORT,
     NPM_CREDENTIALS_FILE: config.NPM_CREDENTIALS_FILE,
+    HOST_NETWORK_FORWARD_HOST: config.HOST_NETWORK_FORWARD_HOST,
   };
 }

@@ -14,6 +14,9 @@ export interface ContainerInspect {
   Config: {
     Env: string[] | null;
   };
+  HostConfig?: {
+    NetworkMode?: string;
+  };
   NetworkSettings: {
     Networks: Record<string, { IPAddress: string }>;
   };
