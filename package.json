@@ -1,6 +1,6 @@
 {
   "name": "npm-auto-discovery",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Auto-discover Docker containers and create Nginx Proxy Manager proxy hosts",
   "type": "module",
   "engines": {

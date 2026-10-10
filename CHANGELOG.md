@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-10-10
+
 ### Added
 
 - `HOST_NETWORK_FORWARD_HOST` config: containers with `network_mode: host` are forwarded to this address instead of failing with `CONTAINER_NO_IP`
@@ -38,6 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Multi-stage Dockerfile with `linux/amd64` and `linux/arm64` support
 - GitHub Actions CI (lint, type-check, tests with coverage) and Docker publishing to GHCR and Docker Hub on semver tags
 
-[Unreleased]: https://github.com/MOD4EVER/npm-auto-discovery/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/MOD4EVER/npm-auto-discovery/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/MOD4EVER/npm-auto-discovery/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/MOD4EVER/npm-auto-discovery/releases/tag/v1.0.0
 
